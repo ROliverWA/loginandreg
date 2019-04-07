@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">    
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login and Registration</title>
+</head>
+<body>
+    <div class="main_wrapper">
+        <div class="header">
+            <h1 class="welcome_msg">Login And Registration</h1>
+            <div class="body">
+                <form action="/validate" method="post">
+                <div class="registration">
+                <p ><h2 class="reg_here">Register Here!</h2></p><br><br>
+                <p class="reg_bxtitle">First Name:</p>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if message == 'fname_error' %}
+                                <p class='error_text'>Please Enter A First Name.</p>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <p ><input type='text' name="fname" class="reg_box"></p>
+                <p class="reg_bxtitle">Last Name:</p>
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if message == 'lname_error': %}
+                            <p class='error_text'>Please Enter A Last Name.</p>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+                <p ><input type='text' name="lname" class="reg_box"></p>
+                <p class="reg_bxtitle">Email:</p>
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if message == 'email_error': %}
+                            <p class='error_text'>Please Enter A Valid Email Address.</p>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+                <p ><input type='text' name="email" class="reg_box"></p>
+                <p class="reg_bxtitle">Birthday:</p>
+                <p ><input type='date' name="birthday" class="reg_box"></p>                           
+                <p class="reg_bxtitle">Password:</p>
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if message == 'format_error': %}
+                            <p class='error_text'>Password Must Include At Least One Uppercase Letter One Lowercase Letter, One Number, And One Special Character (@$!%*#?&), and be between 8 and 15 characters in length.</p>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+                <p ><input type='text' name="pass_it" class="reg_box"></p>
+                <p class="reg_bxtitle">Confirm Password:</p>
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if message == 'match_error': %}
+                            <p class='error_text'>Passwords Do Not Match</p>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+                <p ><input type='text' name="times_two" class="reg_box"></p>
+                <P><input type='submit' name='reg_button' value="Register" class='reg_button'></P>
+                </div>
+                <div class="login"></div>
+                </form>
+            </div>
+        </div>
+
+
+
+
+
+
+
+    </div>
+</body>
+</html>
