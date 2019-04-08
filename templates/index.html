@@ -10,10 +10,20 @@
 <body>
     <div class="main_wrapper">
         <div class="header">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if message == 'already_exists' %}
+                            <p class='error_text'>User Already Exists. Please Try Logging In.</p>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
             <h1 class="welcome_msg">Login And Registration</h1>
             <div class="body">
-                <form action="/validate" method="post">
+                
                 <div class="registration">
+                <form action="/validate" method="post" class="reg_form">
                 <p ><h2 class="reg_here">Register Here!</h2></p><br><br>
                 <p class="reg_bxtitle">First Name:</p>
                 {% with messages = get_flashed_messages() %}
@@ -25,7 +35,7 @@
                         {% endfor %}
                     {% endif %}
                 {% endwith %}
-                <p ><input type='text' name="fname" class="reg_box"></p>
+                <p ><input type='text' name="fname" class="reg_box" value={{session['fname']}}></p>
                 <p class="reg_bxtitle">Last Name:</p>
                 {% with messages = get_flashed_messages() %}
                 {% if messages %}
@@ -36,7 +46,7 @@
                     {% endfor %}
                 {% endif %}
             {% endwith %}
-                <p ><input type='text' name="lname" class="reg_box"></p>
+                <p ><input type='text' name="lname" class="reg_box" value={{session['lname']}}></p>
                 <p class="reg_bxtitle">Email:</p>
                 {% with messages = get_flashed_messages() %}
                 {% if messages %}
@@ -47,9 +57,9 @@
                     {% endfor %}
                 {% endif %}
             {% endwith %}
-                <p ><input type='text' name="email" class="reg_box"></p>
-                <p class="reg_bxtitle">Birthday:</p>
-                <p ><input type='date' name="birthday" class="reg_box"></p>                           
+                <p ><input type='text' name="email" class="reg_box" value={{session['email']}}></p>
+                <!-- <p class="reg_bxtitle">Birthday:</p>
+                <p ><input type='date' name="birthday" class="reg_box"></p>                            -->
                 <p class="reg_bxtitle">Password:</p>
                 {% with messages = get_flashed_messages() %}
                 {% if messages %}
@@ -60,7 +70,7 @@
                     {% endfor %}
                 {% endif %}
             {% endwith %}
-                <p ><input type='text' name="pass_it" class="reg_box"></p>
+                <p ><input type='password' name="pass_it" class="reg_box"></p>
                 <p class="reg_bxtitle">Confirm Password:</p>
                 {% with messages = get_flashed_messages() %}
                 {% if messages %}
@@ -71,12 +81,38 @@
                     {% endfor %}
                 {% endif %}
             {% endwith %}
-                <p ><input type='text' name="times_two" class="reg_box"></p>
+                <p ><input type='password' name="times_two" class="reg_box"></p>
                 <P><input type='submit' name='reg_button' value="Register" class='reg_button'></P>
-                </div>
-                <div class="login"></div>
+                <p><input type='hidden' name='form_side' value="register"></p>
                 </form>
+            
             </div>
+            <div class='login'>
+                    <p ><h2 class="reg_here">Login Here!</h2></p><br><br>
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if message == 'login_no_dice' %}
+                                <p class='error_text'>We Are Unable To Log You In At This Time.</p>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <form action="/validate" method="post" class="log_form">
+                    <p class="log_bxtitle">Email:</p>          
+                    <p ><input type='text' name="log_email" class="log_box"></p>
+                    <p class="log_bxtitle">Password:</p>                    
+                    <p ><input type='password' name="log_password" class="log_box"></p>
+                    <P><input type='submit' name='reg_button' value="Login" class='reg_button'></P>
+                    <p><input type='hidden' name='form_side' value="login"></p>
+                </form>
+                </div>
+
+            </div> 
+
+
+            </div>
+
         </div>
 
 
