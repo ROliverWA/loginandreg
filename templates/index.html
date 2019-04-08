@@ -58,8 +58,8 @@
                 {% endif %}
             {% endwith %}
                 <p ><input type='text' name="email" class="reg_box" value={{session['email']}}></p>
-                <!-- <p class="reg_bxtitle">Birthday:</p>
-                <p ><input type='date' name="birthday" class="reg_box"></p>                            -->
+                <p class="reg_bxtitle">Birthday:</p>
+                <p ><input type='date' name="birthday" class="reg_box"></p>                           
                 <p class="reg_bxtitle">Password:</p>
                 {% with messages = get_flashed_messages() %}
                 {% if messages %}

@@ -55,14 +55,21 @@ def validate_fields():
             else:
                 i_love_hash = bcrypt.generate_password_hash(request.form['pass_it'])
                 mysql = connectToMySQL("loginapp")
-                query = "INSERT INTO users (first_name, last_name, email, pw_hash, created_at) VALUES (%(fn)s, %(ln)s, %(e)s, %(hash)s, NOW());"   
+                query = "INSERT INTO users (first_name, last_name, email,birthday, pw_hash, created_at) VALUES (%(fn)s, %(ln)s, %(e)s ,%(b)s, %(hash)s, NOW())"   
                 data = { "fn": request.form['fname'],
                     "ln": request.form['lname'],
                     "e": request.form['email'],
+                    "b": request.form['birthday'],
                     "hash" : i_love_hash
                 }
                 user_info = mysql.query_db(query, data)
                 session.clear()
+                mysql = connectToMySQL('loginapp')
+                query = "SELECT first_name FROM users WHERE id = %(i);"
+                data = {
+                    "i": user_info
+                }
+                user_info = mysql.query_db(query, data)
                 session['user'] = user_info
                 return redirect('/success')
             
@@ -80,11 +87,7 @@ def validate_fields():
             "e" : request.form['log_email']
         }
         user_info = mysql.query_db(query, data)
-        i_love_hash = bcrypt.generate_password_hash(request.form['log_password'])
-        # flash(i_love_hash)
-        # flash(user_info)
-        # flash(user_info[0])
-        # return render_template('failure.html')
+        i_love_hash = bcrypt.generate_password_hash(request.form['log_password'])    
         if bcrypt.check_password_hash(user_info[0]['pw_hash'], request.form['log_password']):
             session.clear()
             session['user'] = user_info[0]['first_name']
@@ -95,7 +98,10 @@ def validate_fields():
         
 @app.route('/success')
 def success():
-    return render_template('success.html')
+    if 'user' in session:   
+        return render_template('success.html')
+    else:
+        return redirect('/')
 
 @app.route('/logout')
 def logout():
